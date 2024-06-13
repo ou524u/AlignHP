@@ -122,7 +122,7 @@ def load_shuffle(result_dict, seed=42):
 
 
 def put_fromdict(result_dict, pair_list, mode='full'):
-    motion_dir = os.path.join(PROJ_DIR, 'datas')
+    motion_dir = os.path.join(PROJ_DIR, 'data')
     
     invalid_cnt = 0
     for i, (file_name, choise) in enumerate(result_dict.items()):

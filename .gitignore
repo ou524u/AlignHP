@@ -1,3 +1,6 @@
 *.pth
 wandb/
 *.pyc
+data/
+datasets/
+pretrained/

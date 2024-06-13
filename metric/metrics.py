@@ -24,14 +24,14 @@ evalflame = False
 evalflame = True
 # evalmdm = True
 
-gt_humanact12 = [torch.load(os.path.join(PROJ_DIR, f'datasets/motion-gt{i}.pth'))['motion'] for i in range(12)]
-gt_uestc = [torch.load(os.path.join(PROJ_DIR, f'/datasets/motion-gtuestc{i}.pth'))['motion'] for i in range(40)]
+gt_humanact12 = [torch.load(os.path.join(PROJ_DIR, f'datasets/gt/motion-gt{i}.pth'))['motion'] for i in range(12)]
+gt_uestc = [torch.load(os.path.join(PROJ_DIR, f'/datasets/gt/motion-gtuestc{i}.pth'))['motion'] for i in range(40)]
 
 gt_humanact12xyz = []
 gt_uestcxyz = []
 
 
-gt_flame = [torch.load(os.path.join(PROJ_DIR, f'/datasets/flame-gt.pth'))]
+gt_flame = [torch.load(os.path.join(PROJ_DIR, f'/datasets/gt/flame-gt.pth'))]
 gt_flamexyz = []
 
 def extract_number_from_filename(file_name):
