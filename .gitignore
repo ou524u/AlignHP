@@ -1,7 +1,8 @@
 *.pth
-wandb/
 *.pyc
-data/
-datasets/
-pretrained/
-marked/
+wandb/
+MotionCritic/wandb
+MotionCritic/data/
+MotionCritic/datasets/
+MotionCritic/pretrained/
+MotionCritic/marked/
