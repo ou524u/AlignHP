@@ -47,7 +47,7 @@ to get origin motion files and annotation results, from which you'll be able to 
 
 You can also get full annotation at https://drive.google.com/file/d/1TpZ0nVvx2c84rYGmHsdLgNbu8gBwLGkA/view?usp=sharing
 
-Complete motion .npz files are at https://drive.google.com/file/d/1oM9B1InRkEpKu6-Y5sJ9Z-7DY7hemEpN/view?usp=drive_link
+Get complete motion .npz files at https://drive.google.com/file/d/1oM9B1InRkEpKu6-Y5sJ9Z-7DY7hemEpN/view?usp=drive_link
 
 ## Training
 Run command
