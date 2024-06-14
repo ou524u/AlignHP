@@ -21,8 +21,8 @@ evalmdm = False
 evalflame = False
 
 
-evalflame = True
-# evalmdm = True
+# evalflame = True
+evalmdm = True
 
 gt_humanact12 = [torch.load(os.path.join(PROJ_DIR, f'datasets/gt/motion-gt{i}.pth'))['motion'] for i in range(12)]
 gt_uestc = [torch.load(os.path.join(PROJ_DIR, f'/datasets/gt/motion-gtuestc{i}.pth'))['motion'] for i in range(40)]
