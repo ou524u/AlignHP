@@ -30,7 +30,7 @@ Get metadata for MotionPercept dataset at https://drive.google.com/file/d/1WnBI8
 
 
 
-## Evaluatation
+## Evaluation
 
 Run command
 ```bash
