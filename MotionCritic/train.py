@@ -19,7 +19,7 @@ import gc
 import pytorch_warmup as warmup
 import argparse
 
-# is this useful?
+# this might be useful
 torch.manual_seed(3407)
 
 # Initialize argparse

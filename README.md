@@ -1,11 +1,11 @@
 # Aligning Motion Generation with Human Perceptions
 
-Pytorch inplementation for paper: Aligning Motion Generation with Human Perceptions, submitted to NeurIPS2024, d&b track.
+Pytorch inplementation of paper: Aligning Motion Generation with Human Perceptions, submitted to NeurIPS2024, d&b track.
 
 
 ## Dataset & Pretrained Model
 Run command
-```python
+```bash
 bash prepare_dataset.sh # download pre-processed datasets
 bash prepare_model.sh # download pretrained models
 ```
@@ -14,19 +14,32 @@ You can also get pre-processed datasets at https://drive.google.com/file/d/1H5MA
 
 And get pretrained MotionCritic model at https://drive.google.com/file/d/1vifu1vktjCWDpyPpzGPugzHNalhsaMpq/view?usp=drive_link
 
+Dataset metadata is at https://drive.google.com/file/d/1WnBI8UDCINnv1LHAtsNZJ6QY2tRehUdG/view?usp=drive_link
+
 
 
 
 ## Evaluatation
 
 Run command
-```python
+```bash
 python metrics.py
 python critic_score.py
 
 ```
 
-to reproduces results with the paper.
+to reproduces results within the paper.
+
+
+## Pack your own dataset
+Run command
+```bash
+
+
+```
+
+
+
 
 ## Training
 Run command

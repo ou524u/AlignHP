@@ -161,9 +161,3 @@ for select_i in range(12):
     torch.save(pair_list, pth_name)
     print(f"saving .pth at {pth_name}")
 
-
-
-
-
-
-
