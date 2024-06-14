@@ -2,11 +2,16 @@
 
 Pytorch inplementation of paper: Aligning Motion Generation with Human Perceptions, submitted to NeurIPS2024, d&b track.
 
-## Environment setup
+## Getting started
+Setup the environment.
 ```bash
 conda env create -f environment.yml
 conda activate mocritic
 ```
+
+| Task    | Document                     |
+| ------- | ---------------------------- |
+| Dataset | [docs/data.md](docs/data.md) |
 
 
 
@@ -22,7 +27,6 @@ You can also get pre-processed datasets at https://drive.google.com/file/d/1H5MA
 Get pretrained MotionCritic model at https://drive.google.com/file/d/1vifu1vktjCWDpyPpzGPugzHNalhsaMpq/view?usp=drive_link
 
 Get metadata for MotionPercept dataset at https://drive.google.com/file/d/1WnBI8UDCINnv1LHAtsNZJ6QY2tRehUdG/view?usp=drive_link
-
 
 
 
