@@ -21,7 +21,7 @@ You can also get pre-processed datasets at https://drive.google.com/file/d/1H5MA
 
 And get pretrained MotionCritic model at https://drive.google.com/file/d/1vifu1vktjCWDpyPpzGPugzHNalhsaMpq/view?usp=drive_link
 
-Dataset metadata is at https://drive.google.com/file/d/1WnBI8UDCINnv1LHAtsNZJ6QY2tRehUdG/view?usp=drive_link
+Metadata for MotionPercept dataset is at https://drive.google.com/file/d/1WnBI8UDCINnv1LHAtsNZJ6QY2tRehUdG/view?usp=drive_link
 
 
 
