@@ -38,7 +38,7 @@ python metrics.py
 python critic_score.py
 ```
 
-to reproduces results within the paper.
+to reproduce results within the paper.
 
 
 ## Pack your own dataset
@@ -47,9 +47,9 @@ Run command
 bash prepare_fullannotation.sh
 bash prepare_motion.sh
 ```
-to get origin motion files and annotation results, from which you'll be able to pack your own datasets.
+to get original motion files and annotation results, from which you'll be able to pack your own dataset.
 
-You can also get full annotation at https://drive.google.com/file/d/1TpZ0nVvx2c84rYGmHsdLgNbu8gBwLGkA/view?usp=sharing
+You can also get full annotation results at https://drive.google.com/file/d/1TpZ0nVvx2c84rYGmHsdLgNbu8gBwLGkA/view?usp=sharing
 
 Get complete motion .npz files at https://drive.google.com/file/d/1oM9B1InRkEpKu6-Y5sJ9Z-7DY7hemEpN/view?usp=drive_link
 
@@ -58,6 +58,6 @@ Run command
 ```bash
 python train.py --gpu_indices 0 --exp_name my_experiment --dataset mdmfull_shuffle --save_latest --lr_decay --big_model
 ```
-to train your own Critic model.
+to train your own critic model.
 
 
