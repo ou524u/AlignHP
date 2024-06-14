@@ -10,7 +10,7 @@ conda activate mocritic
 
 
 
-## Dataset & Pretrained Model
+## Dataset & Pretrained model
 Run command
 ```bash
 bash prepare_dataset.sh # download pre-processed datasets
