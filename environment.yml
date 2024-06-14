@@ -1,4 +1,4 @@
-name: mdm
+name: mocritic
 channels:
   - conda-forge
   - anaconda

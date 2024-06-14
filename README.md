@@ -2,6 +2,13 @@
 
 Pytorch inplementation of paper: Aligning Motion Generation with Human Perceptions, submitted to NeurIPS2024, d&b track.
 
+## Environment setup
+```bash
+conda env create -f environment.yml
+conda activate mocritic
+```
+
+
 
 ## Dataset & Pretrained Model
 Run command
