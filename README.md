@@ -32,7 +32,6 @@ Run command
 ```bash
 python metrics.py
 python critic_score.py
-
 ```
 
 to reproduces results within the paper.
@@ -41,12 +40,14 @@ to reproduces results within the paper.
 ## Pack your own dataset
 Run command
 ```bash
-
-
+bash prepare_fullannotation.sh
+bash prepare_motion.sh
 ```
+to get origin motion files and annotation results, from which you'll be able to pack your own datasets.
 
+You can also get full annotation at https://drive.google.com/file/d/1TpZ0nVvx2c84rYGmHsdLgNbu8gBwLGkA/view?usp=sharing
 
-
+Complete motion .npz files are at https://drive.google.com/file/d/1oM9B1InRkEpKu6-Y5sJ9Z-7DY7hemEpN/view?usp=drive_link
 
 ## Training
 Run command
