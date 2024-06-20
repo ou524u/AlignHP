@@ -232,9 +232,9 @@ def add_tuning_options(parser):
                        help="critic_loss_scale")
     group.add_argument("--kl_scale", default=0, type=float,
                        help="critic_loss_scale")
-    group.add_argument("--denoise_lower", default=850, type=int,
+    group.add_argument("--denoise_lower", default=700, type=int,
                        help="denoise lower bound")
-    group.add_argument("--denoise_upper", default=950, type=int,
+    group.add_argument("--denoise_upper", default=900, type=int,
                        help="denoise upper bound")
     group.add_argument("--wandb", type=str, default=None,
                     help='Experiment name for WandB')

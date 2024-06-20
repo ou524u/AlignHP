@@ -103,8 +103,8 @@ python -m train.tune_mdm \
 --batch_size 64 --lr 1e-5 \
 --denoise_lower 700 --denoise_upper 900 \
 --use_kl_loss \
---save_dir save/finetuned/ftexp0 \
---wandb ftexp0
+--save_dir save/finetuned/my_experiment \
+--wandb my_experiment
 ```
 
 Additional Python scripts for various fine-tuning purposes can be found in `MDMCritic/train`, detailed in the [fine-tuning documentation](docs/finetuning.md).
