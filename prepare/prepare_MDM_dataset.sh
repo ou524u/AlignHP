@@ -22,7 +22,7 @@ tar xjvf uestc.tar.bz2
 echo "Cleaning\n"
 rm uestc.tar.bz2
 
-echo "Downloading done!"
+echo -e "Downloading done!"
 
 # prepare glove for MDM evaluation
 cd ..
