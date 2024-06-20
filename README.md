@@ -7,7 +7,9 @@ Try MotionCritic scoring with several lines of [code](MDMCritic/visexample.py)
 ```bash
 bash prepare/prepare_demo.sh
 ```
-https://github.com/ou524u/AlignHP/assets/92263178/d6f34b51-8b09-4e4c-b396-fa7b62b8328f
+
+https://github.com/ou524u/AlignHP/assets/92263178/a11fa74d-43a4-4dff-a755-c0c9fe00ccfe
+
 
 ```python
 from critic.load_critic import load_critic
