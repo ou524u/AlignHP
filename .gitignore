@@ -12,4 +12,5 @@ MotionCritic/wandb/
 MDMCritic/body_models/
 MDMCritic/dataset/
 MDMCritic/save/
+MDMCritic/body_models/
 MDMCritic/wandb/

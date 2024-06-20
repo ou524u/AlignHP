@@ -406,17 +406,14 @@ class MotionCritic(nn.Module):
         
         return critic
     
-    def get_critic(self, motion):
+    def clipped_critic(self, motion):
         
 
         encoded_motion = self.dstran.get_representation(motion)
         encoded_motion = torch.mean(encoded_motion, dim=1, keepdim=True)
         encoded_motion = encoded_motion.reshape(encoded_motion.shape[0], -1)
         critic = self.mlp(encoded_motion)
-        # mean_critic = torch.mean(critic, dim=0)
-        # return mean_critic
-    
-# below is used in ft5. adding a mask
+        
         if encoded_motion.shape[0] == 1:
             mean_critic = torch.mean(critic, dim=0)
             return mean_critic
@@ -436,7 +433,7 @@ class MotionCritic(nn.Module):
 
             return mean_critic
 
-    def get_batch_critic(self, motion):
+    def batch_critic(self, motion):
         
         encoded_motion = self.dstran.get_representation(motion)
         encoded_motion = torch.mean(encoded_motion, dim=1, keepdim=True)

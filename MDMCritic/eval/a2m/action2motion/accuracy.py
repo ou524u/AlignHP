@@ -26,6 +26,6 @@ def calculate_critic(model, critic_model, motion_loader, device):
             all_critic.append(batch_critic)
 
     all_critic = torch.cat(all_critic, dim=0)
-    critic_loss = critic_model.module.get_critic(all_critic)
+    critic_loss = critic_model.module.clipped_critic(all_critic)
     print(f"in calculate_critic critic_loss is {critic_loss.item()}")
     return critic_loss.item()

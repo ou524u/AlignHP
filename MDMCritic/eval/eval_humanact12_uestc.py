@@ -15,7 +15,7 @@ from utils.fixseed import fixseed
 from utils.model_util import create_model_and_diffusion, load_model_wo_clip
 
 
-from pubcode.AlignHP.MDMCritic.critic.critic import MotionCritic
+from critic.critic import MotionCritic
 
 def evaluate(args, model, diffusion, data, critic_model, single_batch=False, batch_size=None, motion=None, sample=None, model_kwargs=None, sample_kwargs=None):
     scale = None

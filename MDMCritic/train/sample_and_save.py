@@ -13,7 +13,7 @@ from train.tuning_loop import TuneLoop
 from data_loaders.get_data import get_dataset_loader
 from utils.model_util import create_model_and_diffusion
 from train.train_platforms import ClearmlPlatform, TensorboardPlatform, NoPlatform  # required for the eval operation
-from pubcode.AlignHP.MDMCritic.critic.critic import MotionCritic
+from critic.critic import MotionCritic
 import torch
 
 def main():

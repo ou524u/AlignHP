@@ -20,7 +20,7 @@ from data_loaders.tensors import collate
 import utils.rotation_conversions as geometry_u
 
 
-from pubcode.AlignHP.MDMCritic.critic.critic import MotionCritic
+from critic.critic import MotionCritic
 from render.render import render_multi
 PROJ_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -211,7 +211,7 @@ def main():
         sample_list[i] = outof_mdm(sampled_motion)
         critic_m = into_critic(sample_list[i])
         critic_m = critic_m.to(real_device)
-        critic_val = model.module.get_critic(critic_m)
+        critic_val = model.module.clipped_critic(critic_m)
         critic_val = critic_val.cpu().item()
         critics.append(critic_val)
 

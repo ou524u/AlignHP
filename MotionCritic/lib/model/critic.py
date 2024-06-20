@@ -426,67 +426,13 @@ class MotionCritic(nn.Module):
                 mean_critic = torch.tensor(12.0, device=critic.device, requires_grad=True)  # Handle case with no valid critics
 
             return mean_critic
-
-
-class MotionCritic_s(nn.Module):
-    def __init__(self, device='cpu', dim_in=3, dim_out=3, dim_feat=256, dim_rep=512,
-                 depth=5, num_heads=8, mlp_ratio=4, 
-                 num_joints=25, maxlen=243, 
-                 qkv_bias=True, qk_scale=None, drop_rate=0., attn_drop_rate=0., drop_path_rate=0., norm_layer=nn.LayerNorm, att_fuse=True):
-        
-        super().__init__()
-        self.device = device
-        self.mlp = MLP(in_features= 25*dim_rep, hidden_features=2*dim_rep, out_features=1)
-
-        self.dstran = DSTformer(dim_in, dim_out, dim_feat, dim_rep,
-                 depth, num_heads, mlp_ratio, 
-                 num_joints, maxlen, 
-                 qkv_bias, qk_scale, drop_rate, attn_drop_rate, drop_path_rate, norm_layer, att_fuse)
-
-
-
-    def forward(self, batch_data):
-        motion_better, motion_worse = batch_data['motion_better'], batch_data['motion_worse']
         
 
-        encode_better = self.dstran.get_representation(motion_better) # [batch size * frames(60) * joints(25) * channels(512)]
-        encode_worse = self.dstran.get_representation(motion_worse) 
+    def batch_critic(self, motion):
         
-        encode_better = torch.mean(encode_better, dim=1, keepdim=True) # [batch size * frames(1) * joints(25) * channels(512)]
-        encode_worse = torch.mean(encode_worse, dim=1, keepdim=True)
 
-        encode_better = encode_better.reshape(encode_better.shape[0], -1) # [batch size * (25*512)]
-        encode_worse = encode_worse.reshape(encode_worse.shape[0], -1)
-        
-        critic_better = torch.sigmoid(self.mlp(encode_better))
-        critic_worse = torch.sigmoid(self.mlp(encode_worse))
-
-        critic = torch.cat((critic_better, critic_worse), dim=1)
-        
-        return critic
-    
-    def clipped_critic(self, motion):
         encoded_motion = self.dstran.get_representation(motion)
         encoded_motion = torch.mean(encoded_motion, dim=1, keepdim=True)
         encoded_motion = encoded_motion.reshape(encoded_motion.shape[0], -1)
         critic = self.mlp(encoded_motion)
-        if encoded_motion.shape[0] == 1:
-            mean_critic = torch.mean(critic, dim=0)
-            return mean_critic
-        
-        else:
-            # Create a mask for critics less than or equal to 12
-            mask = critic <= 12
-            
-            # Filter the critics using the mask
-            filtered_critics = critic[mask]
-            
-            # Calculate the mean of the filtered critics
-            if filtered_critics.numel() > 0:  # Check if there are any critics to average
-                mean_critic = torch.mean(filtered_critics, dim=0)
-            else:
-                mean_critic = torch.tensor(12.0, device=critic.device, requires_grad=True)  # Handle case with no valid critics
-
-            return mean_critic
-    
-    
+        return critic

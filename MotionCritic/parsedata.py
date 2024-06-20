@@ -13,8 +13,8 @@ sys.path.append(PROJ_DIR)
 
 def into_critic(generated_motion):
     # generated_raw shape is torch.Size([1, 25, 6, 60])
-    root_loc = generated_motion[:,-1:,:3,:].permute(0,3,1,2)
-    rot6d_motion = generated_motion[:,:-1,:,:].permute(0,3,1,2)
+    root_loc = generated_motion[..., -1:, :3, :].permute(-4, -1, -3, -2)
+    rot6d_motion = generated_motion[..., :-1, :, :].permute(-4, -1, -3, -2)
     axis_angle = geometry_u.matrix_to_axis_angle(geometry_u.rotation_6d_to_matrix(rot6d_motion))
     # axis_angle torch.Size([1, 60, 24, 3])
     # print(f'axis_angle {axis_angle.shape}, root_loc {root_loc.shape}')
@@ -140,20 +140,15 @@ def put_fromdict(result_dict, pair_list, mode='full'):
     
 
 
-for select_i in range(12):
-
-    result_dict = {}
-    result_dict = load_addfromfolder(f'marked/mdma/{select_i:02d}', result_dict)
-    result_dict = load_addfromfolder(f'marked/mdma-added/{select_i:02d}', result_dict)
-
-
-    pair_list = []
-    # result_dict = load_shuffle(result_dict)
-
-    mode = 'full' # chooing from full, train, val
-    put_fromdict(result_dict, pair_list, mode=mode)
-    pth_name = f'datasets/humanact12_{select_i:02d}-{mode}.pth'
-    torch.save(pair_list, pth_name)
-
-    print(f"saving .pth at {pth_name}")
+# for select_i in range(12):
+#     result_dict = {}
+#     result_dict = load_addfromfolder(f'marked/mdma/{select_i:02d}', result_dict)
+#     result_dict = load_addfromfolder(f'marked/mdma-added/{select_i:02d}', result_dict)
+#     pair_list = []
+#     # result_dict = load_shuffle(result_dict)
+#     mode = 'full' # chooing from full, train, val
+#     put_fromdict(result_dict, pair_list, mode=mode)
+#     pth_name = f'datasets/humanact12_{select_i:02d}-{mode}.pth'
+#     torch.save(pair_list, pth_name)
+#     print(f"saving .pth at {pth_name}")
 

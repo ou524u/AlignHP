@@ -15,7 +15,7 @@ from train.tuning_loop import TuneLoop
 from data_loaders.get_data import get_dataset_loader
 from utils.model_util import create_model_and_diffusion
 from train.train_platforms import ClearmlPlatform, TensorboardPlatform, NoPlatform  # required for the eval operation
-from pubcode.AlignHP.MDMCritic.critic.critic import MotionCritic
+from critic.critic import MotionCritic
 import torch
 from render.render import render_multi
 from pubcode.AlignHP.MDMCritic.sample.critic_generate import outof_mdm, into_critic, outof_critic
@@ -87,7 +87,7 @@ def main():
             save_dir = os.path.join(PROJ_DIR,f"save/direct/{exp_name}/step{step}")
             new_paths = []
             new_comments = []
-            new_batch_critic = critic_model.module.get_batch_critic(motion)
+            new_batch_critic = critic_model.module.batch_critic(motion)
             for i in range(motion.shape[0]):
                 new_paths.append(os.path.join(save_dir, os.path.basename(paths[i])))
                 new_comments.append(comments[i] + f",{exp_name} step {step}, new-critic {new_batch_critic[i].item()}")
@@ -103,7 +103,7 @@ def main():
         optimizer.zero_grad()
 
         # Forward pass
-        critic_loss = critic_model.module.get_critic(motion)
+        critic_loss = critic_model.module.clipped_critic(motion)
 
         critic_loss = -scale  * torch.sigmoid(12.0-critic_loss)
 

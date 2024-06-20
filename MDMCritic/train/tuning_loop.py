@@ -568,7 +568,7 @@ class TuneLoop:
         merged_batch = into_critic(outof_mdm(merged_batch))
         self.critic_model.to(dist_util.dev())
         merged_batch = merged_batch.to(dist_util.dev())
-        critics = self.critic_model.module.get_batch_critic(merged_batch)
+        critics = self.critic_model.module.batch_critic(merged_batch)
         critics = torch.squeeze(critics)
 
 # critics is a tensor with shape [x]. critic-batch-cond are connected pair. I want to sort and reorder them according to critic value from large to small. how?
@@ -698,7 +698,7 @@ class TuneLoop:
         )
 
         
-        critics = self.critic_model.module.get_batch_critic(into_critic(outof_mdm(sample)))
+        critics = self.critic_model.module.batch_critic(into_critic(outof_mdm(sample)))
         critics = torch.squeeze(critics)
         # saving motions and critic scores
         # if id is not None:
@@ -800,7 +800,7 @@ class TuneLoop:
         # compute complete scores for the dump_list, but only render the sampled video out
         sampled_critic_list = []
         for k, sample in enumerate(sampled_list):
-            sampled_critic_list.append(self.critic_model.module.get_critic(into_critic(outof_mdm(sample))).item())
+            sampled_critic_list.append(self.critic_model.module.clipped_critic(into_critic(outof_mdm(sample))).item())
 
         print(f"### eval-sample at step {self.step}, critic list {sampled_critic_list}")
         if self.use_wandb:
@@ -826,7 +826,7 @@ class TuneLoop:
         score_list = []
         for k in range(check_list.shape[0]):
             # compute separatly each motion's critic
-            score_k = self.critic_model.module.get_critic(into_critic(check_list[k:k+1]))
+            score_k = self.critic_model.module.clipped_critic(into_critic(check_list[k:k+1]))
             score_list.append(score_k.item())
 
         # rendering out these motions
@@ -860,7 +860,7 @@ class TuneLoop:
             gttext_list = text_list
             gtscore_list = []
             for k in range(gtcheck_list.shape[0]):
-                score_m = self.critic_model.module.get_critic(into_critic(gtcheck_list[k:k+1]))
+                score_m = self.critic_model.module.clipped_critic(into_critic(gtcheck_list[k:k+1]))
                 gtscore_list.append(score_m.item())
 
             gtcomment_list = []
@@ -977,7 +977,7 @@ class TuneLoop:
             
                     
 
-            critic_loss = self.critic_model.module.get_critic(sample_pred)
+            critic_loss = self.critic_model.module.clipped_critic(sample_pred)
            
             # backward
             # print(f"denoise_t is {denoise_t}, critic_output is {critic_loss.item()}", end = ", ")

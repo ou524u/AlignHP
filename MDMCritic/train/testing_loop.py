@@ -361,7 +361,7 @@ class TestLoop:
         print(f"merged_batch shape {merged_batch.shape}")
         self.critic_model.to(dist_util.dev())
         merged_batch = merged_batch.to(dist_util.dev())
-        critics = self.critic_model.module.get_batch_critic(merged_batch)
+        critics = self.critic_model.module.batch_critic(merged_batch)
         critics = torch.squeeze(critics)
 
         
@@ -556,7 +556,7 @@ class TestLoop:
             
                     
 
-            critic_loss = self.critic_model.module.get_critic(sample_pred)
+            critic_loss = self.critic_model.module.clipped_critic(sample_pred)
            
             # backward
             # print(f"denoise_t is {denoise_t}, critic_output is {critic_loss.item()}", end = ", ")
