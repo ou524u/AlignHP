@@ -7,12 +7,12 @@ import torch
 import functools
 from torch.utils.data import DataLoader
 
-from mdm_utils.fixseed import fixseed
+from utils.fixseed import fixseed
 from data_loaders.tensors import collate
 from eval.a2m.action2motion.evaluate import A2MEvaluation
 from eval.unconstrained.evaluate import evaluate_unconstrained_metrics
 from .tools import save_metrics, format_metrics
-from mdm_utils import dist_util
+from utils import dist_util
 
 num_samples_unconstrained = 1000
 

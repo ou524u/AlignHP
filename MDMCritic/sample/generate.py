@@ -3,13 +3,13 @@
 Generate a large batch of image samples from a model and save them as a large
 numpy array. This can be used to produce samples for FID evaluation.
 """
-from mdm_utils.fixseed import fixseed
+from utils.fixseed import fixseed
 import os
 import numpy as np
 import torch
-from mdm_utils.parser_util import generate_args
-from mdm_utils.model_util import create_model_and_diffusion, load_model_wo_clip
-from mdm_utils import dist_util
+from utils.parser_util import generate_args
+from utils.model_util import create_model_and_diffusion, load_model_wo_clip
+from utils import dist_util
 from model.cfg_sampler import ClassifierFreeSampleModel
 from data_loaders.get_data import get_dataset_loader
 from data_loaders.humanml.scripts.motion_process import recover_from_ric
@@ -21,7 +21,6 @@ from data_loaders.tensors import collate
 
 def main():
     args = generate_args()
-    
     fixseed(args.seed)
     out_path = args.output_dir
     name = os.path.basename(os.path.dirname(args.model_path))
@@ -103,8 +102,6 @@ def main():
     all_lengths = []
     all_text = []
 
-    print(f"model_kwargs is {model_kwargs}")
-
     for rep_i in range(args.num_repetitions):
         print(f'### Sampling [repetitions #{rep_i}]')
 
@@ -137,21 +134,9 @@ def main():
 
         rot2xyz_pose_rep = 'xyz' if model.data_rep in ['xyz', 'hml_vec'] else model.data_rep
         rot2xyz_mask = None if rot2xyz_pose_rep == 'xyz' else model_kwargs['y']['mask'].reshape(args.batch_size, n_frames).bool()
-        
-        if(rot2xyz_pose_rep != 'xyz'): # which means it's a2m here
-            print("sample shape: ",sample.shape) # sample shape:  torch.Size([1, 25, 6, 60])
-            a2m_full = sample.clone().detach()
-            # npy_path = os.path.join(out_path, 'mdm_motion_real.npy')
-            npy_path_my = "/DATA/disk1/cvda-intern/check_input/mdm_motion_real.npy"
-            np.save(npy_path_my, {'motion_real':a2m_full.cpu().numpy()})
-            print(f"saving motion_real to [{npy_path_my}]...")
-
-        
         sample = model.rot2xyz(x=sample, mask=rot2xyz_mask, pose_rep=rot2xyz_pose_rep, glob=True, translation=True,
                                jointstype='smpl', vertstrans=True, betas=None, beta=0, glob_rot=None,
                                get_rotations_back=False)
-        
-        
 
         if args.unconstrained:
             all_text += ['unconstrained'] * args.num_samples
@@ -167,7 +152,6 @@ def main():
 
     all_motions = np.concatenate(all_motions, axis=0)
     all_motions = all_motions[:total_num_samples]  # [bs, njoints, 6, seqlen]
-    print("motions shape is: ",all_motions.shape)
     all_text = all_text[:total_num_samples]
     all_lengths = np.concatenate(all_lengths, axis=0)[:total_num_samples]
 

@@ -6,7 +6,7 @@ import smplx
 import h5py
 from visualize.joints2smpl.src.smplify import SMPLify3D
 from tqdm import tqdm
-import mdm_utils.rotation_conversions as geometry
+import utils.rotation_conversions as geometry
 import argparse
 
 

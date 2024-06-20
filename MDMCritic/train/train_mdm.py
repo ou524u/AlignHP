@@ -5,12 +5,12 @@ Train a diffusion model on images.
 
 import os
 import json
-from mdm_utils.fixseed import fixseed
-from mdm_utils.parser_util import train_args
-from mdm_utils import dist_util
+from utils.fixseed import fixseed
+from utils.parser_util import train_args
+from utils import dist_util
 from train.training_loop import TrainLoop
 from data_loaders.get_data import get_dataset_loader
-from mdm_utils.model_util import create_model_and_diffusion
+from utils.model_util import create_model_and_diffusion
 from train.train_platforms import ClearmlPlatform, TensorboardPlatform, NoPlatform  # required for the eval operation
 
 def main():

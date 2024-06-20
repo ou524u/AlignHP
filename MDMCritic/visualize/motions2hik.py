@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-from mdm_utils.rotation_conversions import rotation_6d_to_matrix, matrix_to_euler_angles
+from utils.rotation_conversions import rotation_6d_to_matrix, matrix_to_euler_angles
 from visualize.simplify_loc2rot import joints2smpl
 
 """

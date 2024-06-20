@@ -6,13 +6,13 @@ import os
 import torch
 import re
 
-from mdm_utils import dist_util
+from utils import dist_util
 from model.cfg_sampler import ClassifierFreeSampleModel
 from data_loaders.get_data import get_dataset_loader
 from eval.a2m.tools import save_metrics
-from mdm_utils.parser_util import evaluation_parser
-from mdm_utils.fixseed import fixseed
-from mdm_utils.model_util import create_model_and_diffusion, load_model_wo_clip
+from utils.parser_util import evaluation_parser
+from utils.fixseed import fixseed
+from utils.model_util import create_model_and_diffusion, load_model_wo_clip
 
 
 from pubcode.AlignHP.MDMCritic.critic.critic import MotionCritic

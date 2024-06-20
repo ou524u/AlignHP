@@ -165,7 +165,7 @@ def compute_PFC(batch_vectors):
 
 
 # read all motions from files
-motion_location = '/mnt/cvda/cvda-intern/datasets/'
+motion_location = os.path.join(PROJ_DIR, "datasets")
 
 def rootloc_pairs_from_filename(file_name, choise):
     better_loc = []

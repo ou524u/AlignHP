@@ -10,7 +10,7 @@ import torch
 from torch.optim import AdamW
 
 from diffusion import logger
-from mdm_utils import dist_util
+from utils import dist_util
 from diffusion.fp16_util import MixedPrecisionTrainer
 from diffusion.resample import LossAwareSampler, UniformSampler
 from tqdm import tqdm
@@ -28,7 +28,7 @@ import random
 import diffusion.gaussian_diffusion as gsdiff
 
 from pubcode.AlignHP.MDMCritic.sample.critic_generate import outof_mdm, into_critic
-from mdm_render.render import render_multi
+from render.render import render_multi
 
 # For ImageNet experiments, this was a good default value.
 # We found that the lg_loss_scale quickly climbed to

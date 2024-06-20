@@ -7,7 +7,7 @@ import numpy as np
 from collections import OrderedDict
 from functools import partial
 from itertools import repeat
-from mdm_utils.drop import DropPath
+from utils.drop import DropPath
 
 # motionbert above
 

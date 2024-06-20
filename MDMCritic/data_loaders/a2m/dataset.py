@@ -2,10 +2,10 @@ import random
 
 import numpy as np
 import torch
-# from mdm_utils.action_label_to_idx import action_label_to_idx
+# from utils.action_label_to_idx import action_label_to_idx
 from data_loaders.tensors import collate
-from mdm_utils.misc import to_torch
-import mdm_utils.rotation_conversions as geometry
+from utils.misc import to_torch
+import utils.rotation_conversions as geometry
 
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, num_frames=1, sampling="conseq", sampling_step=1, split="train",

@@ -1,5 +1,6 @@
 *.pth
 *.pyc
+*.pth
 wandb/
 MotionCritic/wandb
 MotionCritic/data/
@@ -7,4 +8,8 @@ MotionCritic/datasets/
 MotionCritic/pretrained/
 MotionCritic/marked/
 MotionCritic/wandb/
+
+MDMCritic/body_models/
+MDMCritic/dataset/
+MDMCritic/save/
 MDMCritic/wandb/

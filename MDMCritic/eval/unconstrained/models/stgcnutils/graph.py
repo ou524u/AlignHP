@@ -1,7 +1,7 @@
 import numpy as np
 import pickle as pkl
 
-from mdm_utils.config import SMPL_KINTREE_PATH
+from utils.config import SMPL_KINTREE_PATH
 
 
 class Graph:

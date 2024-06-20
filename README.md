@@ -1,61 +1,110 @@
-## Aligning Motion Generation with Human Perceptions
+# Aligning Motion Generation with Human Perceptions
 
 This repository contains the PyTorch implementation of the paper "Aligning Motion Generation with Human Perceptions," submitted to NeurIPS 2024, D&B track.
 
-### Getting Started
+## Getting Started
 
-#### Setup the Environment
+### Setup the Environment
 
 ```bash
 conda env create -f environment.yml
 conda activate mocritic
 ```
 
-#### Task Documentation
+### Task Documentation
 
-- Dataset: [docs/data.md](docs/data.md)
+- [Annotations](docs/annotation.md)
+- [Motion files](docs/motion.md)
+- [Dataset](docs/dataset.md)
+- [Fine-tuning](docs/finetuning.md)
 
-#### Dataset & Pretrained Model
+### Dataset & Pretrained Model
 
-Run the following commands to download the pre-processed datasets and pretrained models:
+Download the pre-processed datasets and pretrained models:
 
 ```bash
-bash prepare_dataset.sh # download pre-processed datasets
-bash prepare_model.sh # download pretrained models
+bash prepare/prepare_dataset.sh  # Download pre-processed datasets
+bash prepare/prepare_pretrained.sh  # Download pretrained models
 ```
 
-You can also get the pre-processed datasets [here](https://drive.google.com/file/d/1H5MAPBIAygGV5HSa2yIftWDdGq4fPEXB/view?usp=drive_link).
+Alternatively, you can manually download the files from the following links:
+- Pre-processed datasets: [Google Drive Link](https://drive.google.com/file/d/1H5MAPBIAygGV5HSa2yIftWDdGq4fPEXB/view?usp=drive_link)
+- Pretrained MotionCritic model: [Google Drive Link](https://drive.google.com/file/d/1vifu1vktjCWDpyPpzGPugzHNalhsaMpq/view?usp=drive_link)
 
-Get the pretrained MotionCritic model [here](https://drive.google.com/file/d/1vifu1vktjCWDpyPpzGPugzHNalhsaMpq/view?usp=drive_link).
 
-Get the metadata for the MotionPercept dataset [here](https://drive.google.com/file/d/1WnBI8UDCINnv1LHAtsNZJ6QY2tRehUdG/view?usp=drive_link).
+### Build Your Own Dataset (Optional)
 
-### Evaluation
-
-Run the following commands to reproduce the results within the paper:
+To build your own dataset from the original motion files and annotation results:
 
 ```bash
+bash prepare/prepare_fullannotation.sh
+bash prepare/prepare_fullmotion.sh
+```
+
+Manual downloads are available here:
+- Full annotation results: [Google Drive Link](https://drive.google.com/file/d/1TpZ0nVvx2c84rYGmHsdLgNbu8gBwLGkA/view?usp=sharing)
+- Complete motion .npz files: [Google Drive Link](https://drive.google.com/file/d/1oM9B1InRkEpKu6-Y5sJ9Z-7DY7hemEpN/view?usp=drive_link)
+
+After pre-processing the complete data, build your dataset with:
+
+```bash
+cd MotionCritic
+python parsedata.py
+```
+
+
+## Evaluating the Critic Model
+
+Reproduce the results from the paper by running:
+
+```bash
+cd MotionCritic/metric
 python metrics.py
 python critic_score.py
 ```
 
-### Pack Your Own Dataset
 
-Run the following commands to obtain the original motion files and annotation results, from which you can pack your own dataset:
+## Train Your Critic Model
 
-```bash
-bash prepare_fullannotation.sh
-bash prepare_motion.sh
-```
-
-You can also get the full annotation results [here](https://drive.google.com/file/d/1TpZ0nVvx2c84rYGmHsdLgNbu8gBwLGkA/view?usp=sharing).
-
-Get the complete motion .npz files [here](https://drive.google.com/file/d/1oM9B1InRkEpKu6-Y5sJ9Z-7DY7hemEpN/view?usp=drive_link).
-
-### Training
-
-Run the following command to train your own critic model:
+Train your own critic model with the following command:
 
 ```bash
+cd MotionCritic
 python train.py --gpu_indices 0 --exp_name my_experiment --dataset mdmfull_shuffle --save_latest --lr_decay --big_model
 ```
+
+## Critic Model Supervised Fine-Tuning
+
+First, prepare the MDM baseline:
+
+```bash
+bash prepare/prepare_MDM_dataset.sh
+bash prepare/prepare_MDM_pretrained.sh
+```
+
+If you encounter any issues, refer to the [MDM baseline setup](https://github.com/GuyTevet/motion-diffusion-model).
+
+Next, start MotionCritic-supervised fine-tuning:
+
+```bash
+cd MDMCritic
+
+python -m train.tune_mdm \
+--dataset humanact12 --cond_mask_prob 0 --lambda_rcxyz 1 --lambda_vel 1 --lambda_fc 1 \
+--resume_checkpoint ./save/humanact12/model000350000.pt \
+--reward_model_path ./reward/exp8_final.pth \
+--device 0 \
+--num_steps 1200 \
+--save_interval 100 \
+--reward_scale 1e-4 --kl_scale 5e-2 --random_reward_loss \
+--ddim_sampling \
+--eval_during_training \
+--sample_when_eval \
+--batch_size 64 --lr 1e-5 \
+--denoise_lower 700 --denoise_upper 900 \
+--use_kl_loss \
+--save_dir save/finetuned/ftexp0 \
+--wandb ftexp0
+```
+
+Additional Python scripts for various fine-tuning purposes can be found in `MDMCritic/train`, detailed in the [fine-tuning documentation](docs/finetuning.md).

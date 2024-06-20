@@ -10,7 +10,7 @@ import torch
 from torch.optim import AdamW
 
 from diffusion import logger
-from mdm_utils import dist_util
+from utils import dist_util
 from diffusion.fp16_util import MixedPrecisionTrainer
 from diffusion.resample import LossAwareSampler, UniformSampler
 from tqdm import tqdm

@@ -1,5 +1,5 @@
 cd MotionCritic
-mkdir data
+mkdir -p data
 cd data
 
 # download full motion files, to pack your own dataset

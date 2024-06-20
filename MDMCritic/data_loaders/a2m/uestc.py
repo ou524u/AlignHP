@@ -2,7 +2,7 @@ import os
 from tqdm import tqdm
 import numpy as np
 import pickle as pkl
-import mdm_utils.rotation_conversions as geometry
+import utils.rotation_conversions as geometry
 import torch
 
 from .dataset import Dataset

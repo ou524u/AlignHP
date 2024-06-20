@@ -1,7 +1,7 @@
 # This code is based on https://github.com/Mathux/ACTOR.git
 import torch
-import mdm_utils.rotation_conversions as geometry
-from mdm_render.smpl import SMPL, JOINTSTYPE_ROOT
+import utils.rotation_conversions as geometry
+from render.smpl import SMPL, JOINTSTYPE_ROOT
 # from .get_model import JOINTSTYPES
 JOINTSTYPES = ["a2m", "a2mpl", "smpl", "vibe", "vertices"]
 

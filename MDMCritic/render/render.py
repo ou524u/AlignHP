@@ -1,4 +1,4 @@
-from mdm_render.rotation2xyz import Rotation2xyz
+from render.rotation2xyz import Rotation2xyz
 import numpy as np
 from trimesh import Trimesh
 import os
@@ -18,7 +18,7 @@ from pyrender.constants import RenderFlags
 # import math
 # import ffmpeg
 # from PIL import Image
-# import mdm_utils.rotation_conversions as geometry_u
+# import utils.rotation_conversions as geometry_u
 
 import cv2
 # import argparse

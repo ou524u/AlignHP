@@ -1,4 +1,4 @@
-# Dataset Description
+# Dataset Documentation
 
 This dataset contains pre-processed better-worse motion pairs stored in a `.pth` file. Each pair in the dataset includes the keys `motion_better` and `motion_worse`, represented as tensors in the following format:
 
@@ -27,7 +27,7 @@ Each tensor is structured as follows:
 - **25 joints:** Each frame contains information for 25 joints (24 SMPL joints + 1 root location).
 - **3 dimensions:** Each joint is described using 3-dimensional xyz coordinates.
 
-### Usage
+## Usage
 
 To load the dataset, use the following example code in Python:
 
@@ -46,3 +46,7 @@ motion_worse = motion_pair['motion_worse']
 Replace `'path_to_your_file.pth'` with the actual path to your `.pth` file and `'pair_index'` with the index of the motion pair you want to access.
 
 This format ensures the dataset is clearly understood and easy to work with for further processing and analysis.
+
+
+
+

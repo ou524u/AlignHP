@@ -2,35 +2,35 @@ import numpy as np
 import lib.utils.rotation_conversions as geometry_u
 import torch
 import os
+import sys
 import json
+
 
 import random
 
 PROJ_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(PROJ_DIR)
 
-
+def into_critic(generated_motion):
+    # generated_raw shape is torch.Size([1, 25, 6, 60])
+    root_loc = generated_motion[:,-1:,:3,:].permute(0,3,1,2)
+    rot6d_motion = generated_motion[:,:-1,:,:].permute(0,3,1,2)
+    axis_angle = geometry_u.matrix_to_axis_angle(geometry_u.rotation_6d_to_matrix(rot6d_motion))
+    # axis_angle torch.Size([1, 60, 24, 3])
+    # print(f'axis_angle {axis_angle.shape}, root_loc {root_loc.shape}')
+    critic_m = torch.cat([axis_angle, root_loc], dim=-2)
+    return critic_m
 
 def putpair(pair_list, file_name, choise='B', type='mdm'):
-    # print(f'file_name is {file_name}, choice is {choise}, type is {type}')
     npz_file = np.load(file_name, allow_pickle=True)
+
     motion_list = npz_file['arr_0'].item()['motion']
     # prompt_list = npz_file['arr_0'].item()['prompt']
 
     processed_motion_list = []
-    # print(type(motion_list[0]))
-
     for motion in motion_list:
         motion = np.transpose(motion, (2,0,1))
-        # now shaped 60,25,6
-        root_loc = torch.from_numpy(motion[0:60,24:25,0:3])
-        rot6d = torch.from_numpy(motion[0:60,0:24,0:6])
-        axis_angle = geometry_u.matrix_to_axis_angle(geometry_u.rotation_6d_to_matrix(rot6d))
-        # print(axis_angle.shape)
-        res = torch.cat([axis_angle, root_loc], dim=1)
-        processed_motion_list.append(res)
-
-    # check = 0
+        processed_motion_list.append(into_critic(motion))
 
     if type == 'mdm':
         if choise == 'A':
@@ -140,11 +140,6 @@ def put_fromdict(result_dict, pair_list, mode='full'):
     
 
 
-# result_dict = {}
-# result_dict = load_addfromfolder('marked/mdma')
-# result_dict = load_addfromfolder('marked/mdma-added')
-
-
 for select_i in range(12):
 
     result_dict = {}
@@ -154,10 +149,11 @@ for select_i in range(12):
 
     pair_list = []
     # result_dict = load_shuffle(result_dict)
-    put_fromdict(result_dict, pair_list, mode='full')
 
-
-    pth_name = f'datasets/humanact12_{select_i:02d}.pth'
+    mode = 'full' # chooing from full, train, val
+    put_fromdict(result_dict, pair_list, mode=mode)
+    pth_name = f'datasets/humanact12_{select_i:02d}-{mode}.pth'
     torch.save(pair_list, pth_name)
+
     print(f"saving .pth at {pth_name}")
 

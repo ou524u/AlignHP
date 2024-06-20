@@ -1,4 +1,4 @@
-from mdm_render.render import render_multi
+from render.render import render_multi
 import os
 import torch
 import argparse

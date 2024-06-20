@@ -10,7 +10,7 @@ import torch
 from torch.optim import AdamW
 
 from diffusion import logger
-from mdm_utils import dist_util
+from utils import dist_util
 from diffusion.fp16_util import MixedPrecisionTrainer
 from diffusion.resample import LossAwareSampler, UniformSampler
 from tqdm import tqdm
@@ -28,7 +28,6 @@ import random
 import diffusion.gaussian_diffusion as gsdiff
 
 from pubcode.AlignHP.MDMCritic.sample.critic_generate import outof_mdm, into_critic
-# from mdm_render.render import render_multi
 
 # For ImageNet experiments, this was a good default value.
 # We found that the lg_loss_scale quickly climbed to
@@ -835,7 +834,7 @@ class TuneLoop:
 
         
         path_list = []
-        pathdir = os.path.join("/mnt/cvda/cvda-intern/mdm_vis", self.save_dir)
+        pathdir = os.path.join(PROJ_DIR, self.save_dir)
         pathdir = os.path.join(pathdir, f"step{self.step}")
         os.makedirs(pathdir, exist_ok=True)
         for k in range(check_list.shape[0]):
@@ -866,7 +865,7 @@ class TuneLoop:
 
             gtcomment_list = []
             gtpath_list = []
-            gtpathdir = os.path.join("/mnt/cvda/cvda-intern/mdm_vis", self.save_dir)
+            gtpathdir = os.path.join(PROJ_DIR, self.save_dir)
             gtpathdir = os.path.join(gtpathdir, f"gt")
             os.makedirs(gtpathdir, exist_ok=True)
             for k in range(gtcheck_list.shape[0]):
