@@ -167,14 +167,14 @@ def init_seeds(seed, cuda_deterministic=True):
        cudnn.benchmark = True
 
 
-def loss_func(reward):
+def loss_func(critic):
     
-    target = torch.zeros(reward.shape[0], dtype=torch.long).to(reward.device)
-    loss_list = F.cross_entropy(reward, target, reduction='none')
+    target = torch.zeros(critic.shape[0], dtype=torch.long).to(critic.device)
+    loss_list = F.cross_entropy(critic, target, reduction='none')
     loss = torch.mean(loss_list)
     
-    reward_diff = reward[:, 0] - reward[:, 1]
-    acc = torch.mean((reward_diff > 0).clone().detach().float())
+    critic_diff = critic[:, 0] - critic[:, 1]
+    acc = torch.mean((critic_diff > 0).clone().detach().float())
     
     return loss, loss_list, acc
 
@@ -288,10 +288,10 @@ for epoch in range(start_epoch, num_epochs):
         optimizer.zero_grad()
 
         # Forward pass
-        reward = model(batch_data)
+        critic = model(batch_data)
 
         # Compute the loss
-        loss, _, acc = criterion(reward)
+        loss, _, acc = criterion(critic)
 
         # Backward pass and optimization
         loss.backward()

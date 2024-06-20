@@ -6,3 +6,5 @@ MotionCritic/data/
 MotionCritic/datasets/
 MotionCritic/pretrained/
 MotionCritic/marked/
+MotionCritic/wandb/
+MDMCritic/wandb/

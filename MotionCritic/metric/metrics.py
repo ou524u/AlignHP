@@ -314,24 +314,24 @@ def results_from_filename(file_name, choise, metric):
 
 
 
-def data_for_table(reward):
+def data_for_table(critic):
     # less is better!
-    reward_diff = reward[:, 0] - reward[:, 1]
-    acc = torch.mean((reward_diff < 0).float())
+    critic_diff = critic[:, 0] - critic[:, 1]
+    acc = torch.mean((critic_diff < 0).float())
 
-    # each reward has two scores, 0 for the better and 1 for worse.
+    # each critic has two scores, 0 for the better and 1 for worse.
     # we want that each pair's better score and worse score go softmax to become to probablities, sum=1
     # true labels are 0
     # we want to calculate acc, log_loss and auc-roc
 
-    target = torch.zeros(reward.shape[0], dtype=torch.long)
+    target = torch.zeros(critic.shape[0], dtype=torch.long)
     # Compute log_loss
     
 
     # Compute probabilities with softmax
 
-    # print(f"{reward[:20,:]}")
-    probs = F.softmax(reward, dim=1).numpy()
+    # print(f"{critic[:20,:]}")
+    probs = F.softmax(critic, dim=1).numpy()
     probs = probs[:,[1,0]]
     target_np = target.numpy()
     log_loss_value = log_loss(y_true=target_np, y_pred=probs, labels=[0, 1])

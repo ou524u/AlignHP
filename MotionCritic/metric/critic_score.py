@@ -36,21 +36,21 @@ checkpoint = torch.load(os.path.join(PROJ_DIR,f'pretrained/exp8_final.pth'), map
 model.load_state_dict(checkpoint['model_state_dict'])
 
 
-def metric_func(reward):
-    # reward's shape is [batch_size,2]
-    target = torch.zeros(reward.shape[0], dtype=torch.long).to(reward.device)
-    loss_list = F.cross_entropy(reward, target, reduction='none')
+def metric_func(critic):
+    # critic's shape is [batch_size,2]
+    target = torch.zeros(critic.shape[0], dtype=torch.long).to(critic.device)
+    loss_list = F.cross_entropy(critic, target, reduction='none')
     loss = torch.mean(loss_list)
     
-    reward_diff = reward[:, 0] - reward[:, 1]
-    acc = torch.mean((reward_diff > 0).clone().detach().float())
-    # each reward has two scores, 0 for the better and 1 for worse.
+    critic_diff = critic[:, 0] - critic[:, 1]
+    acc = torch.mean((critic_diff > 0).clone().detach().float())
+    # each critic has two scores, 0 for the better and 1 for worse.
     # we want that each pair's better score and worse score go softmax to become to probablities, sum=1
     # true labels are 0
     # we want to calculate acc, log_loss and auc-roc
 
     # Compute probabilities with softmax
-    probs = F.softmax(reward, dim=1).cpu().detach().numpy()
+    probs = F.softmax(critic, dim=1).cpu().detach().numpy()
     target_np = target.cpu().numpy()
     # Compute log_loss
     log_loss_value = log_loss(y_true=target_np, y_pred=probs, labels=[0, 1])
