@@ -1,6 +1,7 @@
 *.pth
 *.pyc
 *.pth
+*.mp4
 wandb/
 assets/
 
