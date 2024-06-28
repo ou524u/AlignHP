@@ -7,7 +7,7 @@ MotionCritic is capable of scoring a single motion with just a few lines of code
 ```bash
 cd MDMCritic
 ```
-https://github.com/ou524u/AlignHP/assets/92263178/caf6084a-1ec2-4ad7-a968-388e3f9ddcc3
+
 ```python
 from critic.load_critic import load_critic
 from sample.critic_generate import into_critic
@@ -19,14 +19,13 @@ critic_scores = critic_model.module.batch_critic(into_critic(example['motion']))
 print(f"critic scores are {critic_scores}") # Critic score being 4.1297 in this case
 ```
 
+
+https://github.com/ou524u/AlignHP/assets/92263178/edd9600a-5c72-4594-80b3-356d442736c9
+
 Try scoring multiple motions with just a few lines of [code](MDMCritic/visexample.py) 
 ```bash
 bash prepare/prepare_demo.sh
 ```
-
-https://github.com/ou524u/AlignHP/assets/92263178/a11fa74d-43a4-4dff-a755-c0c9fe00ccfe
-
-
 ```python
 from critic.load_critic import load_critic
 from render.render import render_multi
@@ -41,6 +40,8 @@ print(f"critic scores are {critic_scores}")
 # get motions rendered
 render_multi(example['motion'], 'cpu', example['comment'], example['path'])
 ```
+
+https://github.com/ou524u/AlignHP/assets/92263178/a11fa74d-43a4-4dff-a755-c0c9fe00ccfe
 
 
 ## Getting Started
