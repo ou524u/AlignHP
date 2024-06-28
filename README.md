@@ -3,7 +3,23 @@
 This repository contains the PyTorch implementation of the paper "Aligning Motion Generation with Human Perceptions," submitted to NeurIPS 2024, D&B track.
 
 ## Quick Demo
-Try MotionCritic scoring with several lines of [code](MDMCritic/visexample.py) 
+MotionCritic is capable of scoring a single motion with just a few lines of code.
+```bash
+cd MDMCritic
+```
+https://github.com/ou524u/AlignHP/assets/92263178/caf6084a-1ec2-4ad7-a968-388e3f9ddcc3
+```python
+from critic.load_critic import load_critic
+from sample.critic_generate import into_critic
+import torch
+critic_model = load_critic("critic/exp8_final.pth", 'cpu')
+example = torch.load("criexample.pth", map_location='cpu')
+# get critic scores calculated. 
+critic_scores = critic_model.module.batch_critic(into_critic(example['motion']))
+print(f"critic scores are {critic_scores}") # Critic score being 4.1297 in this case
+```
+
+Try scoring multiple motions with just a few lines of [code](MDMCritic/visexample.py) 
 ```bash
 bash prepare/prepare_demo.sh
 ```
