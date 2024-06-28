@@ -22,7 +22,7 @@ print(f"critic scores are {critic_scores}") # Critic score being 4.1297 in this 
 
 https://github.com/ou524u/AlignHP/assets/92263178/edd9600a-5c72-4594-80b3-356d442736c9
 
-Try scoring multiple motions with just a few lines of [code](MDMCritic/visexample.py) 
+Try scoring multiple motions with some more [code](MDMCritic/visexample.py) 
 ```bash
 bash prepare/prepare_demo.sh
 ```
