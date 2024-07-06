@@ -1,44 +1,53 @@
 # Aligning Motion Generation with Human Perceptions
 
-This repository contains the PyTorch implementation of the paper "Aligning Motion Generation with Human Perceptions," submitted to NeurIPS 2024, D&B track.
+This repository contains the PyTorch implementation of the paper "Aligning Motion Generation with Human Perceptions". 
+
+
+<a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a> <a href="https://motioncritic.github.io/"><img alt="Project" src="https://img.shields.io/badge/-Project%20Page-lightgrey?logo=Google%20Chrome&color=informational&logoColor=white"></a> <a href="https://youtu.be/sfFFWTpQcEQ"><img alt="Demo" src="https://img.shields.io/badge/-Demo-ea3323?logo=youtube"></a>
+
+![framework](https://github.com/ou524u/MotionCritic/assets/92263178/215232a3-6499-404a-9475-a877c63e3dd7)
 
 ## Quick Demo
 MotionCritic is capable of scoring a single motion with just a few lines of code.
 ```bash
-cd MDMCritic
+bash prepare/prepare_smpl.sh
 ```
 
 ```python
-from critic.load_critic import load_critic
-from sample.critic_generate import into_critic
+from lib.model.load_critic import load_critic
+from parsedata import into_critic
 import torch
-critic_model = load_critic("critic/exp8_final.pth", 'cpu')
-example = torch.load("criexample.pth", map_location='cpu')
-# get critic scores calculated. 
-critic_scores = critic_model.module.batch_critic(into_critic(example['motion']))
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+critic_model = load_critic("critic/motioncritic_pre.pth", device)
+example = torch.load("criexample.pth", map_location=device)
+example_motion = example['motion'] # [bs, 25, 6, frame], rot6d with 24 SMPL joints and 1 XYZ root location
+# motion pre-processing
+preprocessed_motion = into_critic(example['motion']) # [bs, frame, 25, 3], axis-angle with 24 SMPL joints and 1 XYZ root location
+# critic score
+critic_scores = critic_model.module.batch_critic(preprocessed_motion)
 print(f"critic scores are {critic_scores}") # Critic score being 4.1297 in this case
 ```
 
 
 https://github.com/ou524u/AlignHP/assets/92263178/edd9600a-5c72-4594-80b3-356d442736c9
 
-Try scoring multiple motions with some more [code](MDMCritic/visexample.py) 
+Try scoring multiple motions with some more [code](MotionCritic/visexample.py) 
 ```bash
 bash prepare/prepare_demo.sh
 ```
 ```python
-from critic.load_critic import load_critic
+from lib.model.load_critic import load_critic
 from render.render import render_multi
-from sample.critic_generate import into_critic
+from parsedata import into_critic
 import torch
-
-critic_model = load_critic("critic/exp8_final.pth", 'cpu')
-example = torch.load("visexample.pth", map_location='cpu')
-# get critic scores calculated. 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+critic_model = load_critic("critic/motioncritic_pre.pth", device)
+example = torch.load("visexample.pth", map_location=device)
+# calculate critic score
 critic_scores = critic_model.module.batch_critic(into_critic(example['motion']))
 print(f"critic scores are {critic_scores}")
-# get motions rendered
-render_multi(example['motion'], 'cpu', example['comment'], example['path'])
+# rendering
+render_multi(example['motion'], device, example['comment'], example['path'])
 ```
 
 https://github.com/ou524u/AlignHP/assets/92263178/a11fa74d-43a4-4dff-a755-c0c9fe00ccfe
@@ -134,7 +143,7 @@ cd MDMCritic
 python -m train.tune_mdm \
 --dataset humanact12 --cond_mask_prob 0 --lambda_rcxyz 1 --lambda_vel 1 --lambda_fc 1 \
 --resume_checkpoint ./save/humanact12/model000350000.pt \
---reward_model_path ./reward/exp8_final.pth \
+--reward_model_path ./reward/motioncritic_pre.pth \
 --device 0 \
 --num_steps 1200 \
 --save_interval 100 \
@@ -150,3 +159,4 @@ python -m train.tune_mdm \
 ```
 
 Additional Python scripts for various fine-tuning purposes can be found in `MDMCritic/train`, detailed in the [fine-tuning documentation](docs/finetuning.md).
+
